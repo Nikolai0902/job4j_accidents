@@ -20,17 +20,16 @@
 <div class="container">
 
     <!--Навигация-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/posts/allPost}">Web приложение - Продажа машин!</a>
-            <div class="collapse navbar-collapse">
-                <div class="navbar-nav me-auto">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="Поиск" placeholder="Поиск" aria-label="Поиск">
-                        <button class="btn btn-outline-success" type="submit">Поиск</button>
-                    </form>
-                    <a class="text" th:text="${user}"></a>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <form class="d-flex">
+                    <input class="form-control me-2" type="Поиск" placeholder="Поиск" aria-label="Поиск">
+                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                </form>>
+                <a class="nav-item nav-link" href="/">Главная</a>
+                <a class="nav-item nav-link active" th:href="@{/createAccident}">Добавить Инцидент</a>
+                <a class="text" th:text="${user}"></a>
             </div>
         </div>
     </nav>
@@ -48,12 +47,13 @@
             <tbody>
             <tr th:each="accident: ${accidents}">
                 <td th:text="${accident.id}"/>
-                <td th:text="${accident.name}"/>
+                <td th:text="${accident.name}" th:href="@{/updateAccident/{id}(id=${accident.id})}"/>
                 <td th:text="${accident.text}"/>
                 <td th:text="${accident.address}"/>
             </tr>
             </tbody>
         </table>
+        <a class="btn btn-secondary w-200" th:href="@{/createAccident}">Добавить инцидент</a>
     </div>
 </div>
 </body>

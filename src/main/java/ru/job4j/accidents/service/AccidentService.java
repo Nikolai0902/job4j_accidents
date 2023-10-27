@@ -31,3 +31,4 @@ public class AccidentService {
     public boolean update(Accident accident) {
         return accidentRepository.update(accident);
     }
+}

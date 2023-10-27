@@ -4,15 +4,17 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class AccidentMem {
 
     private static int id;
     private static int count;
-    Map<Integer, Accident> accidents = new Hashtable<>();
+    private final Map<Integer, Accident> accidents;
 
-    {
+    public AccidentMem(Map<Integer, Accident> accidents) {
+        this.accidents = new ConcurrentHashMap<>();
         accidents.put(id++, new Accident(count++, "Nik", "BMW", "st. Green"));
         accidents.put(id++, new Accident(count++, "Bob", "Audi", "st. Red"));
         accidents.put(id++, new Accident(count++, "Tom", "BMW", "st. Black"));

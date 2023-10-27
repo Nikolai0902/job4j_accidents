@@ -43,7 +43,7 @@ public class AccidentController {
 
     @PostMapping("/editAccident")
     public String update(@ModelAttribute Accident accident,
-                         Model model) throws IOException {
+                         Model model) {
         var accidentOptional = accidentService.findById(accident.getId());
         if (accidentOptional.isEmpty()) {
             model.addAttribute("message", "Инцидент не найден");

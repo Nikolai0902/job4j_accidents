@@ -43,6 +43,7 @@
                 <th scope="col">Марка авто</th>
                 <th scope="col">Адрес</th>
                 <th scope="col">Тип</th>
+                <th scope="col">Статьи нарушения</th>
             </tr>
             </thead>
             <tbody>
@@ -52,6 +53,12 @@
                 <td th:text="${accident.text}"/>
                 <td th:text="${accident.address}"/>
                 <td th:text="${accident.type?.name}"/>
+                <td>
+                    <p> <th:block th:each="rule: ${accident.getRules}">
+                        <span th:text="${rule.name}"></span>
+                    </th:block>
+                    </p>
+                </td>
             </tr>
             </tbody>
         </table>

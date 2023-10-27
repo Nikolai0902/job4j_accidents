@@ -15,15 +15,17 @@ public class AccidentMem {
     private static int count;
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
     private final AccidentTypeMem accidentTypeMem;
+    private final RuleMem ruleMem;
 
-    public AccidentMem(AccidentTypeMem accidentTypeMem) {
+    public AccidentMem(AccidentTypeMem accidentTypeMem, RuleMem ruleMem) {
         this.accidentTypeMem = accidentTypeMem;
+        this.ruleMem = ruleMem;
         this.accidents.put(id++, new Accident(count++, "Nik", "BMW", "st. Green",
-                accidentTypeMem.findById(0).get()));
+                accidentTypeMem.findById(0).get(), ruleMem.findAll()));
         this.accidents.put(id++, new Accident(count++, "Bob", "Audi", "st. Red",
-                accidentTypeMem.findById(1).get()));
+                accidentTypeMem.findById(1).get(), ruleMem.findAll()));
         this.accidents.put(id++, new Accident(count++, "Tom", "BMW", "st. Black",
-                accidentTypeMem.findById(2).get()));
+                accidentTypeMem.findById(2).get(), ruleMem.findAll()));
     }
 
     public List<Accident> findAll() {

@@ -26,5 +26,4 @@ public class AccidentTypeMem {
     public Optional<AccidentType> findById(int id) {
         return Optional.of(accidentTypeList.get(id));
     }
-
 }

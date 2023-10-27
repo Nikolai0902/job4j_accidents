@@ -44,13 +44,7 @@ public class AccidentController {
     @PostMapping("/editAccident")
     public String update(@ModelAttribute Accident accident,
                          Model model) {
-        var accidentOptional = accidentService.findById(accident.getId());
-        if (accidentOptional.isEmpty()) {
-            model.addAttribute("message", "Инцидент не найден");
-            log.error(String.format("post id %d not found", accident.getId()));
-            return "errors/error404";
-        }
-        if (!accidentService.update(accidentOptional.get())) {
+        if (!accidentService.update(accident)) {
             model.addAttribute("message", "При обновлении данных произошла ошибка");
             return "errors/error404";
         }

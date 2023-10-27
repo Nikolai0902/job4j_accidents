@@ -26,30 +26,32 @@
                 <form class="d-flex">
                     <input class="form-control me-2" type="Поиск" placeholder="Поиск" aria-label="Поиск">
                     <button class="btn btn-outline-success" type="submit">Поиск</button>
-                </form>>
+                </form>
                 <a class="nav-item nav-link" href="/">Главная</a>
                 <a class="nav-item nav-link active" th:href="@{/createAccident}">Добавить Инцидент</a>
-                <a class="text" th:text="${user}"></a>
+                <a class="nav-item nav-link" th:text="${user}"></a>
             </div>
         </div>
     </nav>
     <div class="container">
         <!--Таблица нарушителей-->
-        <table class="table table-striped" th:if="${not #lists.isEmpty(posts)}">
+        <table class="table">
             <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Марка авто</th>
                 <th scope="col">Адрес</th>
+                <th scope="col">Тип</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="accident: ${accidents}">
                 <td th:text="${accident.id}"/>
-                <td th:text="${accident.name}" th:href="@{/updateAccident/{id}(id=${accident.id})}"/>
+                <td><a th:text="${accident.name}" th:href="@{/updateAccident/{id}(id=${accident.id})}"></a></td>
                 <td th:text="${accident.text}"/>
                 <td th:text="${accident.address}"/>
+                <td th:text="${accident.type?.name}"/>
             </tr>
             </tbody>
         </table>

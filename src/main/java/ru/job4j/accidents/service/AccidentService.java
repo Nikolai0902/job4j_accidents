@@ -9,9 +9,9 @@ import ru.job4j.accidents.repository.AccidentMem;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @Slf4j
 @AllArgsConstructor
+@Service
 public class AccidentService {
 
     private final AccidentMem accidentRepository;

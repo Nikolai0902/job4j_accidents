@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccidentMem {
 
     private static AtomicInteger id;
-    private static AtomicInteger count;
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
     private final AccidentTypeMem accidentTypeMem;
     private final RuleMem ruleMem;
@@ -21,11 +20,12 @@ public class AccidentMem {
     public AccidentMem(AccidentTypeMem accidentTypeMem, RuleMem ruleMem) {
         this.accidentTypeMem = accidentTypeMem;
         this.ruleMem = ruleMem;
-        this.accidents.put(id.getAndIncrement(), new Accident(count.getAndIncrement(), "Nik", "BMW", "st. Green",
+        id = new AtomicInteger(0);
+        this.accidents.put(id.getAndIncrement(), new Accident(id.get(), "Nik", "BMW", "st. Green",
                 accidentTypeMem.findById(0).get(), ruleMem.findAll()));
-        this.accidents.put(id.getAndIncrement(), new Accident(count.getAndIncrement(), "Bob", "Audi", "st. Red",
+        this.accidents.put(id.getAndIncrement(), new Accident(id.get(), "Bob", "Audi", "st. Red",
                 accidentTypeMem.findById(1).get(), ruleMem.findAll()));
-        this.accidents.put(id.getAndIncrement(), new Accident(count.getAndIncrement(), "Tom", "BMW", "st. Black",
+        this.accidents.put(id.getAndIncrement(), new Accident(id.get(), "Tom", "BMW", "st. Black",
                 accidentTypeMem.findById(2).get(), ruleMem.findAll()));
     }
 
@@ -34,7 +34,7 @@ public class AccidentMem {
     }
 
     public Optional<Accident> create(Accident accident) {
-        accident.setId(count.getAndIncrement());
+        accident.setId(id.getAndIncrement());
         return Optional.ofNullable(accidents.put(id.getAndIncrement(), accident));
     }
 

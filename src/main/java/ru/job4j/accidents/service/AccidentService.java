@@ -8,15 +8,27 @@ import ru.job4j.accidents.repository.AccidentMem;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
-@AllArgsConstructor
 @Service
 public class AccidentService {
 
     private final AccidentMem accidentRepository;
+    private final AccidentTypeService accidentTypeService;
+    private final RuleService ruleService;
 
-    public Optional<Accident> create(Accident accident) {
+    public AccidentService(AccidentMem accidentRepository,
+                           AccidentTypeService accidentTypeService, RuleService ruleService) {
+        this.accidentRepository = accidentRepository;
+        this.accidentTypeService = accidentTypeService;
+        this.ruleService = ruleService;
+    }
+
+    public Optional<Accident> create(Accident accident, Set<Integer> rIds) {
+        var accidentType = accidentTypeService.findById(accident.getType().getId());
+        accident.setType(accidentType.get());
+        accident.setRules(ruleService.findBySet(rIds));
         return accidentRepository.create(accident);
     }
 

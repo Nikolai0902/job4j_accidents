@@ -1,9 +1,7 @@
 package ru.job4j.accidents.repository;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.AccidentType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,12 +12,8 @@ public class AccidentMem {
 
     private static AtomicInteger id;
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
-    private final AccidentTypeMem accidentTypeMem;
-    private final RuleMem ruleMem;
 
     public AccidentMem(AccidentTypeMem accidentTypeMem, RuleMem ruleMem) {
-        this.accidentTypeMem = accidentTypeMem;
-        this.ruleMem = ruleMem;
         id = new AtomicInteger(0);
         this.accidents.put(id.getAndIncrement(), new Accident(id.get(), "Nik", "BMW", "st. Green",
                 accidentTypeMem.findById(0).get(), ruleMem.findAll()));
@@ -35,7 +29,7 @@ public class AccidentMem {
 
     public Optional<Accident> create(Accident accident) {
         accident.setId(id.getAndIncrement());
-        return Optional.ofNullable(accidents.put(id.getAndIncrement(), accident));
+        return Optional.ofNullable(accidents.put(accident.getId(), accident));
     }
 
     public Optional<Accident> findById(int id) {

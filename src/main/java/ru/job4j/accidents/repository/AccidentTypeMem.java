@@ -5,25 +5,28 @@ import ru.job4j.accidents.model.AccidentType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentTypeMem {
 
-    private static int id;
-    private final List<AccidentType> accidentTypeList = new ArrayList<>();
+    private static AtomicInteger id = new AtomicInteger(0);
+    private final Map<Integer, AccidentType> accidentType = new ConcurrentHashMap<>();
 
     public AccidentTypeMem() {
-        this.accidentTypeList.add(new AccidentType(id++, "Две машины"));
-        this.accidentTypeList.add(new AccidentType(id++, "Машина и человек"));
-        this.accidentTypeList.add(new AccidentType(id++, "Машина и велосипед"));
+        this.accidentType.put(id.getAndIncrement(), new AccidentType(id.get(), "Две машины"));
+        this.accidentType.put(id.getAndIncrement(), new AccidentType(id.get(), "Машина и человек"));
+        this.accidentType.put(id.getAndIncrement(), new AccidentType(id.get(), "Машина и велосипед"));
     }
 
     public List<AccidentType> findAll() {
-        return accidentTypeList;
+        return new ArrayList<>(accidentType.values());
     }
 
     public Optional<AccidentType> findById(int id) {
-        return Optional.of(accidentTypeList.get(id));
+        return Optional.of(accidentType.get(id));
     }
 }

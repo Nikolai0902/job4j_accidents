@@ -30,12 +30,8 @@ public class AccidentController {
 
     @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident,
-                       @RequestParam(required = false) Set<Integer> rIds
-    ) {
-        var accidentType = accidentTypeService.findById(accident.getType().getId());
-        accident.setType(accidentType.get());
-        accident.setRules(ruleService.findBySet(rIds));
-        accidentService.create(accident);
+                       @RequestParam(required = false) Set<Integer> rIds) {
+        accidentService.create(accident, rIds);
         return "redirect:/index";
     }
 

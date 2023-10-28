@@ -7,12 +7,13 @@ import ru.job4j.accidents.model.AccidentType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
 
-    private static int id;
-    private static int count;
+    private static AtomicInteger id;
+    private static AtomicInteger count;
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
     private final AccidentTypeMem accidentTypeMem;
     private final RuleMem ruleMem;
@@ -20,11 +21,11 @@ public class AccidentMem {
     public AccidentMem(AccidentTypeMem accidentTypeMem, RuleMem ruleMem) {
         this.accidentTypeMem = accidentTypeMem;
         this.ruleMem = ruleMem;
-        this.accidents.put(id++, new Accident(count++, "Nik", "BMW", "st. Green",
+        this.accidents.put(id.getAndIncrement(), new Accident(count.getAndIncrement(), "Nik", "BMW", "st. Green",
                 accidentTypeMem.findById(0).get(), ruleMem.findAll()));
-        this.accidents.put(id++, new Accident(count++, "Bob", "Audi", "st. Red",
+        this.accidents.put(id.getAndIncrement(), new Accident(count.getAndIncrement(), "Bob", "Audi", "st. Red",
                 accidentTypeMem.findById(1).get(), ruleMem.findAll()));
-        this.accidents.put(id++, new Accident(count++, "Tom", "BMW", "st. Black",
+        this.accidents.put(id.getAndIncrement(), new Accident(count.getAndIncrement(), "Tom", "BMW", "st. Black",
                 accidentTypeMem.findById(2).get(), ruleMem.findAll()));
     }
 
@@ -33,8 +34,8 @@ public class AccidentMem {
     }
 
     public Optional<Accident> create(Accident accident) {
-        accident.setId(count++);
-        return Optional.ofNullable(accidents.put(id++, accident));
+        accident.setId(count.getAndIncrement());
+        return Optional.ofNullable(accidents.put(id.getAndIncrement(), accident));
     }
 
     public Optional<Accident> findById(int id) {

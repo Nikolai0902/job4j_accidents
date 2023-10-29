@@ -10,11 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class AccidentMem {
 
-    private static AtomicInteger id;
+    private AtomicInteger id = new AtomicInteger(0);
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
 
     public AccidentMem(AccidentTypeMem accidentTypeMem, RuleMem ruleMem) {
-        id = new AtomicInteger(0);
         this.accidents.put(id.getAndIncrement(), new Accident(id.get(), "Nik", "BMW", "st. Green",
                 accidentTypeMem.findById(0).get(), ruleMem.findAll()));
         this.accidents.put(id.getAndIncrement(), new Accident(id.get(), "Bob", "Audi", "st. Red",
@@ -28,7 +27,8 @@ public class AccidentMem {
     }
 
     public Optional<Accident> create(Accident accident) {
-        accident.setId(id.getAndIncrement());
+        id.getAndIncrement();
+        accident.setId(id.get());
         return Optional.ofNullable(accidents.put(accident.getId(), accident));
     }
 

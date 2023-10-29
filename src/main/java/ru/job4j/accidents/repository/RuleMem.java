@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Repository
 public class RuleMem {
 
-    private static AtomicInteger id = new AtomicInteger(0);
+    private AtomicInteger id = new AtomicInteger(0);
     private final Map<Integer, Rule> rules = new ConcurrentHashMap<>();
 
     public RuleMem() {

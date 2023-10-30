@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.service.AccidentService;
-import ru.job4j.accidents.service.AccidentTypeService;
-import ru.job4j.accidents.service.RuleService;
+import ru.job4j.accidents.service.*;
 
 import java.util.Set;
 
@@ -17,9 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class AccidentController {
 
-    private final AccidentService accidentService;
-    private final AccidentTypeService accidentTypeService;
-    private final RuleService ruleService;
+    private final AccidentServiceJdbc accidentService;
+    private final AccidentTypeServiceJdbc accidentTypeService;
+    private final RuleServiceJdbc ruleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
@@ -43,14 +41,15 @@ public class AccidentController {
             log.error(String.format("post id %d not found", id));
             return "errors/error404";
         }
-        model.addAttribute("templates/accident", accidentOptional.get());
+        model.addAttribute("accident", accidentOptional.get());
+        model.addAttribute("rules", ruleService.findAll());
         return "accident/editAccident";
     }
 
     @PostMapping("/editAccident")
-    public String update(@ModelAttribute Accident accident,
+    public String update(@ModelAttribute Accident accident,  @RequestParam(required = false) Set<Integer> rIds,
                          Model model) {
-        if (!accidentService.update(accident)) {
+        if (!accidentService.update(accident, rIds)) {
             model.addAttribute("message", "При обновлении данных произошла ошибка");
             return "errors/error404";
         }

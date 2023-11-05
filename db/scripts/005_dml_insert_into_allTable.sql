@@ -1,5 +1,5 @@
 INSERT INTO accidents_type (name) VALUES ('Две машины');
-INSERT INTO accidents_type (name) VALUES ('BМашина и человекob');
+INSERT INTO accidents_type (name) VALUES ('Машина и человек');
 INSERT INTO accidents_type (name) VALUES ('Машина и велосипед');
 
 INSERT INTO rule (name) VALUES ('Статья 1');

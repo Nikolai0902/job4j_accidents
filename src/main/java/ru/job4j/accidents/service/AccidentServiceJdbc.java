@@ -5,13 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentJdbcTemplate;
-
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Set;;
 
 @AllArgsConstructor
 @Service

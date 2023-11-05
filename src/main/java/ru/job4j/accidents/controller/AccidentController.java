@@ -15,9 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class AccidentController {
 
-    private final AccidentServiceJdbc accidentService;
-    private final AccidentTypeServiceJdbc accidentTypeService;
-    private final RuleServiceJdbc ruleService;
+    private final AccidentServiceHibernate accidentService;
+    private final AccidentTypeServiceHibernate accidentTypeService;
+    private final RuleServiceHibernate ruleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
@@ -42,6 +42,7 @@ public class AccidentController {
             return "errors/error404";
         }
         model.addAttribute("accident", accidentOptional.get());
+        model.addAttribute("types", accidentTypeService.findAll());
         model.addAttribute("rules", ruleService.findAll());
         return "accident/editAccident";
     }

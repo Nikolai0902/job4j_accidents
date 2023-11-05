@@ -3,21 +3,21 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.repository.AccidentTypeMem;
+import ru.job4j.accidents.repository.AccidentTypeHibernate;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
-public class AccidentTypeService {
+@AllArgsConstructor
+public class AccidentTypeServiceHibernate {
 
-    private final AccidentTypeMem accidentTypeMem;
+    private final AccidentTypeHibernate accidentTypeHibernate;
 
     public List<AccidentType> findAll() {
-        return accidentTypeMem.findAll();
+        return accidentTypeHibernate.findAll();
     }
 
     public Optional<AccidentType> findById(int id) {
-        return accidentTypeMem.findById(id);
+        return accidentTypeHibernate.findById(id);
     }
 }

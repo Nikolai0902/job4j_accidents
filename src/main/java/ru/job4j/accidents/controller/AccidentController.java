@@ -15,9 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class AccidentController {
 
-    private final AccidentServiceHibernate accidentService;
-    private final AccidentTypeServiceHibernate accidentTypeService;
-    private final RuleServiceHibernate ruleService;
+    private final AccidentServiceSD accidentService;
+    private final AccidentTypeServiceSD accidentTypeService;
+    private final RuleServiceSD ruleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {

@@ -16,9 +16,7 @@ public class AccidentTypeServiceSD {
     private final AccidentTypeRepositorySD accidentTypeRepositorySD;
 
     public List<AccidentType> findAll() {
-        List<AccidentType> accidentTypeList = new ArrayList<>();
-        accidentTypeRepositorySD.findAll().forEach(accidentTypeList::add);
-        return accidentTypeList;
+        return accidentTypeRepositorySD.findAll();
     }
 
     public Optional<AccidentType> findById(int id) {

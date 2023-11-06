@@ -14,9 +14,7 @@ public class RuleServiceSD {
     private final RuleRepositorySD ruleRepositorySD;
 
     public Set<Rule> findAll() {
-        Set<Rule> ruleSet = new HashSet<>();
-        ruleRepositorySD.findAll().forEach(ruleSet::add);
-        return ruleSet;
+        return ruleRepositorySD.findAll();
     }
 
     public Set<Rule> findBySet(Set<Integer> set) {

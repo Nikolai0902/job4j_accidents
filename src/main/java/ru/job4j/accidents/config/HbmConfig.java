@@ -21,16 +21,12 @@ public class HbmConfig {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(@Value("${hibernate.dialect}") String dialect,
-                                                  @Value("${hibernate.show_sql}") String sql,
-                                                  @Value("${hibernate.format_sql}") String sqlFormat,
                                                   DataSource ds) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(ds);
         sessionFactory.setPackagesToScan("ru.job4j.accidents.model");
         Properties cfg = new Properties();
         cfg.setProperty("hibernate.dialect", dialect);
-        cfg.setProperty("hibernate.show_sql", sql);
-        cfg.setProperty("hibernate.format_sql", sqlFormat);
         sessionFactory.setHibernateProperties(cfg);
         return sessionFactory;
     }

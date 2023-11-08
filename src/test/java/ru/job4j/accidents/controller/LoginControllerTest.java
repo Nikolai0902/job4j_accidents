@@ -10,23 +10,29 @@ import ru.job4j.accidents.Main;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
-public class IndexControllerTest {
+class LoginControllerTest {
 
     @Autowired
-    private MockMvc mockMvcIndex;
+    private MockMvc mockMvcLogin;
 
     @Test
     @WithMockUser
-    public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvcIndex.perform(get("/"))
+    public void shouldReturnViewLoginPage() throws Exception {
+        this.mockMvcLogin.perform(get("/login"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("login"));
     }
 
+    @Test
+    public void whenLogoutPageThenRedirectLoginLogoutTrue() throws Exception {
+        this.mockMvcLogin.perform(get("/logout"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?logout=true"));
+    }
 }

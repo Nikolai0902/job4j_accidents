@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.accidents.Main;
 import ru.job4j.accidents.model.Accident;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = Main.class)
+@TestPropertySource(locations = "classpath:application.properties")
 @AutoConfigureMockMvc
 class AccidentControllerTest {
 
@@ -34,10 +36,11 @@ class AccidentControllerTest {
         this.mockMvcAccident.perform(get("/createAccident"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("/accident/createAccident"));
+                .andExpect(view().name("accident/createAccident"));
     }
 
     @Test
+    @WithMockUser
     void shouldReturnFormUpdate() throws Exception {
         var accident = new Accident(1, "Name", "Text",
                 "Address", new AccidentType(), Set.of(new Rule()));
@@ -45,6 +48,6 @@ class AccidentControllerTest {
         this.mockMvcAccident.perform(get("/updateAccident/{id}", 1))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("/accident/editAccident"));
+                .andExpect(view().name("accident/editAccident"));
     }
 }

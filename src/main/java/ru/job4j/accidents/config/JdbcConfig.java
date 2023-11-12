@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  * Метод jdbc создает обертку для работы с базой.
  */
 @Configuration
-@PropertySource("db.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class JdbcConfig {
 

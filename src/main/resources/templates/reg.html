@@ -19,6 +19,11 @@
         <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
         <form th:action="@{/reg}" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <div th:if="${not #lists.isEmpty(errorMessage)}" class="form-floating alert alert-danger p-1" role="alert">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="username" name="username">
                 <label for="username">User name</label>

@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.accidents.Main;
 
@@ -14,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest(classes = Main.class)
+@TestPropertySource(locations = "classpath:application.properties")
 @AutoConfigureMockMvc
 public class IndexControllerTest {
 
@@ -23,10 +26,9 @@ public class IndexControllerTest {
     @Test
     @WithMockUser
     public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvcIndex.perform(get("/"))
+        this.mockMvcIndex.perform(get("/index"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("/accident/index"));
     }
-
 }

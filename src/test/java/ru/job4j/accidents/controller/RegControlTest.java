@@ -8,19 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.accidents.Main;
-import ru.job4j.accidents.model.Authority;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.service.AuthorityServiceSD;
 import ru.job4j.accidents.service.UserServiceSD;
-
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,12 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 public class RegControlTest {
+
     @Autowired
     private MockMvc mockMvcReg;
+
     @MockBean
     private UserServiceSD users;
-    @MockBean
-    private AuthorityServiceSD authorities;
 
     @Test
     @WithMockUser
@@ -50,8 +44,8 @@ public class RegControlTest {
     @WithMockUser
     public void testPostRegSave() throws Exception {
         this.mockMvcReg.perform(post("/reg")
-                        .param("username","user")
-                        .param("password","123456"))
+                        .param("username", "user")
+                        .param("password", "123456"))
                 .andDo(print())
                 .andExpect(status().isOk());
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);

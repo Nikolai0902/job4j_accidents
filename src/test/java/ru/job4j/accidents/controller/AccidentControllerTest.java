@@ -1,5 +1,6 @@
 package ru.job4j.accidents.controller;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,10 +18,13 @@ import ru.job4j.accidents.service.AccidentServiceSD;
 import java.util.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = Main.class)
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 class AccidentControllerTest {
 
@@ -49,5 +53,56 @@ class AccidentControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("accident/editAccident"));
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldReturnSaveViewIndex() throws Exception {
+        var accident = new Accident(0, "Name", "Text", "Address",
+                new AccidentType(1, "Empty"), Collections.emptySet());
+        this.mockMvcAccident.perform(post("/saveAccident")
+                        .param("name", "Name")
+                        .param("text", "Text")
+                        .param("address", "Address")
+                        .param("type.id", "1")
+                        .param("type.name", "Empty")
+                        .param("rIds", "1", "2", "3"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/index"));
+
+        ArgumentCaptor<Accident> accidentCapture = ArgumentCaptor.forClass(Accident.class);
+        ArgumentCaptor<Set<Integer>> rIdsCapture = ArgumentCaptor.forClass(Set.class);
+
+        verify(accidents).create(accidentCapture.capture(), rIdsCapture.capture());
+
+        assertThat(accidentCapture.getValue()).isEqualTo(accident);
+    }
+
+    @Test
+    @WithMockUser
+    void shouldReturnEditAccidentViewIndex() throws Exception {
+        var rIds = Set.of(1, 2, 3);
+        var accident = new Accident(0, "Name", "Text", "Address",
+                new AccidentType(1, "Empty"), Collections.emptySet());
+        when(accidents.update(accident, rIds)).thenReturn(true);
+        this.mockMvcAccident.perform(post("/editAccident")
+                        .param("id", "0")
+                        .param("name", "Name")
+                        .param("text", "Text")
+                        .param("address", "Address")
+                        .param("type.id", "1")
+                        .param("type.name", "Empty")
+                        .param("rIds", "1", "2", "3"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/index"));
+
+        ArgumentCaptor<Accident> accidentCapture = ArgumentCaptor.forClass(Accident.class);
+        ArgumentCaptor<Set<Integer>> rIdsCapture = ArgumentCaptor.forClass(Set.class);
+
+        verify(accidents).update(accidentCapture.capture(), rIdsCapture.capture());
+
+        assertThat(accidentCapture.getValue()).isEqualTo(accident);
     }
 }

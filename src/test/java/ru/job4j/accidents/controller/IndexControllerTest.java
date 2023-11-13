@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest(classes = Main.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 @AutoConfigureMockMvc
 public class IndexControllerTest {
 

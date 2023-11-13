@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = Main.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
 @AutoConfigureMockMvc
 public class RegControlTest {
     @Autowired
